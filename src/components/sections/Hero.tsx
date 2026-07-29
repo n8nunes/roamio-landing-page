@@ -1,6 +1,5 @@
 "use client";
 
-import type { CSSProperties } from "react";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { motion, useReducedMotion } from "framer-motion";
@@ -189,6 +188,12 @@ export function Hero() {
     const supportsHoverPointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
     const canAnimate = !prefersReducedMotion;
 
+    // Always reset unveil flag on mount so a mid-navigation leave cannot stick.
+    unveilRef.current.active = false;
+    isVisibleRef.current = true;
+    velocityRef.current = 0;
+    prevPointerRef.current = { x: 0, y: 0, t: 0 };
+
     let alreadyUnveiled = false;
     try {
       alreadyUnveiled = sessionStorage.getItem(UNVEIL_STORAGE_KEY) === "1";
@@ -206,9 +211,16 @@ export function Hero() {
 
     const writeReveal = (now = performance.now()) => {
       frameRef.current = null;
-      if (!isVisibleRef.current) return;
 
       const rect = element.getBoundingClientRect();
+      // Treat as visible if any part of the hero is in view (IO can lag after client nav).
+      const inView = rect.bottom > 0 && rect.top < window.innerHeight;
+      if (!inView && !unveilRef.current.active) {
+        isVisibleRef.current = false;
+        return;
+      }
+      isVisibleRef.current = true;
+
       const { min, max, rest } = resolveSizeRange();
       const pointer = pointerRef.current;
       const previousPointer = prevPointerRef.current;
@@ -327,8 +339,6 @@ export function Hero() {
 
       if (needsContinue && canAnimate) {
         frameRef.current = window.requestAnimationFrame(writeReveal);
-      } else if (needsContinue && !canAnimate && unveil.active) {
-        frameRef.current = window.requestAnimationFrame(writeReveal);
       }
     };
 
@@ -364,11 +374,15 @@ export function Hero() {
       element.style.setProperty("--fog-density", "1");
       frameRef.current = window.requestAnimationFrame(writeReveal);
       window.setTimeout(() => {
+        unveilRef.current.active = false;
         element.removeAttribute("data-unveiling");
       }, UNVEIL_DURATION_MS + 80);
     } else {
+      unveilRef.current.active = false;
       element.style.setProperty("--fog-density", "0.92");
       element.style.setProperty("--reveal-size", `${rest}px`);
+      element.style.setProperty("--reveal-x", `${rect.width * 0.5}px`);
+      element.style.setProperty("--reveal-y", `${rect.height * 0.42}px`);
       if (!canAnimate) {
         element.setAttribute("data-dissolved", "true");
       }
@@ -381,7 +395,7 @@ export function Hero() {
     const observer = new IntersectionObserver(
       ([entry]) => {
         isVisibleRef.current = entry.isIntersecting;
-        element.toggleAttribute("data-fog-active", entry.isIntersecting && (canAnimate || !supportsHoverPointer));
+        element.toggleAttribute("data-fog-active", entry.isIntersecting && canAnimate);
         if (entry.isIntersecting && frameRef.current === null) {
           frameRef.current = window.requestAnimationFrame(writeReveal);
         }
@@ -389,15 +403,28 @@ export function Hero() {
       { threshold: 0.04 }
     );
     observer.observe(element);
-    element.toggleAttribute("data-fog-active", canAnimate || !supportsHoverPointer);
+    element.toggleAttribute("data-fog-active", canAnimate);
 
     const handlePointerMove = (event: PointerEvent) => {
-      if (!supportsHoverPointer || unveilRef.current.active) return;
+      if (!supportsHoverPointer) return;
+      // Allow pointer steering even near the end of unveil so remounts feel responsive.
+      if (unveilRef.current.active) {
+        const elapsed = performance.now() - unveilRef.current.start;
+        if (elapsed < UNVEIL_DURATION_MS * 0.85) return;
+        unveilRef.current.active = false;
+        element.removeAttribute("data-unveiling");
+      }
       queueReveal(event.clientX, event.clientY);
     };
 
     const handleTouchMove = (event: TouchEvent) => {
-      if (supportsHoverPointer || unveilRef.current.active) return;
+      if (supportsHoverPointer) return;
+      if (unveilRef.current.active) {
+        const elapsed = performance.now() - unveilRef.current.start;
+        if (elapsed < UNVEIL_DURATION_MS * 0.85) return;
+        unveilRef.current.active = false;
+        element.removeAttribute("data-unveiling");
+      }
       const touch = event.touches[0];
       if (!touch) return;
       autoDriftRef.current.touchOverrideUntil = performance.now() + 2200;
@@ -416,7 +443,9 @@ export function Hero() {
 
     return () => {
       window.clearTimeout(dissolveTimer);
+      unveilRef.current.active = false;
       if (frameRef.current !== null) window.cancelAnimationFrame(frameRef.current);
+      frameRef.current = null;
       observer.disconnect();
       element.removeEventListener("pointermove", handlePointerMove);
       element.removeEventListener("touchstart", handleTouchMove);
@@ -438,19 +467,6 @@ export function Hero() {
       data-header-theme="light"
       data-dissolve-ready="false"
       className="hero-fog-scene relative w-full overflow-hidden bg-roam-cream px-6 pb-24 pt-[var(--header-height)] md:px-12"
-      style={
-        {
-          "--reveal-x": "50%",
-          "--reveal-y": "42%",
-          "--reveal-size": "640px",
-          "--reveal-ox": "0px",
-          "--reveal-oy": "0px",
-          "--reveal-morph-a": "0px",
-          "--reveal-morph-b": "0px",
-          "--reveal-morph-c": "0px",
-          "--fog-density": "0.98",
-        } as CSSProperties
-      }
     >
       <div className="absolute inset-0 z-0 opacity-95 saturate-[0.86] contrast-[0.96]">
         <MapBackdrop />
