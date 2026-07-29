@@ -47,7 +47,6 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         className={cn(baseStyles, sizeStyles[size], variantStyles[variant], className)}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        data-cursor-interactable="true"
         {...props}
       >
         {variant === "primary" && (

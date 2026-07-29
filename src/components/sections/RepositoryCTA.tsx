@@ -30,8 +30,8 @@ export function RepositoryCTA() {
               transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
               className="absolute inset-x-0"
             >
-              <div className="flex"><span className="w-8 text-white/20">1</span><span className="text-roam-sage">import</span> {'{'} Map, Marker {'}'} <span className="text-roam-sage">from</span> 'roam-core';</div>
-              <div className="flex"><span className="w-8 text-white/20">2</span><span className="text-roam-sage">import</span> {'{'} checkIn {'}'} <span className="text-roam-sage">from</span> '@/api/visits';</div>
+              <div className="flex"><span className="w-8 text-white/20">1</span><span className="text-roam-sage">import</span> {'{'} Map, Marker {'}'} <span className="text-roam-sage">from</span> &apos;roam-core&apos;;</div>
+              <div className="flex"><span className="w-8 text-white/20">2</span><span className="text-roam-sage">import</span> {'{'} checkIn {'}'} <span className="text-roam-sage">from</span> &apos;@/api/visits&apos;;</div>
               <div className="flex"><span className="w-8 text-white/20">3</span></div>
               <div className="flex"><span className="w-8 text-white/20">4</span><span className="text-roam-sage">export function</span> UnlockRegion() {'{'}</div>
               <div className="flex"><span className="w-8 text-white/20">5</span>  <span className="text-roam-sage">const</span> userLocation = useLocation();</div>

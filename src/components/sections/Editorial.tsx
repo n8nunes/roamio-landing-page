@@ -1,91 +1,163 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+
+const copyBlocks = [
+  {
+    label: "Unlock",
+    direction: { opacity: 0, x: -26, clipPath: "inset(0 100% 0 0)" },
+    text: "Roam.io rewards curiosity by turning everyday movement into visible progress.",
+  },
+  {
+    label: "Visit",
+    direction: { opacity: 0, y: 28, clipPath: "inset(100% 0 0 0)" },
+    text: "As you enter supported regions, the map begins to reveal itself. New areas unlock, nearby places appear and every visit becomes part of a personal record of where you have been.",
+  },
+  {
+    label: "Remember",
+    direction: { opacity: 0, x: 26, clipPath: "inset(0 0 0 100%)" },
+    text: "Explore beyond the routes you already know, record meaningful places with notes and media, earn XP through real-world discovery and use your analytics to see how your map has grown over time.",
+  },
+];
 
 export function Editorial() {
   const containerRef = useRef<HTMLDivElement>(null);
-  
+  const prefersReducedMotion = useReducedMotion();
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end start"],
   });
 
-  const y1 = useTransform(scrollYProgress, [0, 1], [100, -100]);
-  const y2 = useTransform(scrollYProgress, [0, 1], [-100, 100]);
+  const marker = useTransform(scrollYProgress, [0.12, 0.82], ["0%", "100%"]);
+  const regionOpacity = useTransform(scrollYProgress, [0.2, 0.55, 0.85], [0.18, 0.48, 0.28]);
+  const y = useTransform(scrollYProgress, [0, 1], [70, -50]);
 
   return (
-    <section 
+    <section
+      id="editorial-intro"
       ref={containerRef}
-      className="relative w-full py-32 md:py-64 bg-roam-cream overflow-hidden px-6 md:px-12"
+      data-header-theme="light"
+      className="relative overflow-hidden bg-roam-cream px-6 py-28 md:px-12 md:py-40"
     >
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-16 items-center">
-        
-        {/* Left Side: Oversized Typography */}
-        <div className="w-full md:w-3/5 z-10">
-          <motion.h2 
-            className="text-5xl md:text-7xl lg:text-[7.5rem] font-bold tracking-tighter text-roam-ink leading-[0.9] -ml-2"
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
+      <div className="mx-auto grid max-w-7xl gap-16 lg:grid-cols-[minmax(0,0.92fr)_minmax(460px,1.08fr)] lg:items-stretch">
+        <div className="relative z-10">
+          <motion.h2
+            className="relative max-w-4xl text-5xl font-bold leading-[0.88] tracking-tighter text-roam-ink md:text-7xl lg:text-[7.6rem]"
+            initial={prefersReducedMotion ? false : { opacity: 0, y: 40 }}
+            whileInView={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-15%" }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           >
-            Your city is <br />
-            <span className="text-roam-sage">bigger</span> than <br />
-            the places you <br />
-            already know.
+            Your city is <span className="text-roam-sage">bigger</span> than
+            the places you already know.
           </motion.h2>
-          
-          <motion.p 
-            className="mt-12 text-lg md:text-xl lg:text-2xl text-roam-text-muted max-w-lg font-medium leading-relaxed"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          >
-            Roam.io rewards curiosity. Move through supported regions, reveal nearby places, record where you have been and build a map shaped by your own experiences.
-          </motion.p>
+
+          <div className="mt-14 grid gap-7 md:grid-cols-3 lg:mt-16 lg:max-w-4xl lg:gap-8">
+            {copyBlocks.map((block, index) => (
+              <motion.article
+                key={block.label}
+                className="border-t border-roam-border-dark pt-5"
+                initial={prefersReducedMotion ? false : block.direction}
+                whileInView={prefersReducedMotion ? undefined : { opacity: 1, x: 0, y: 0, clipPath: "inset(0 0 0 0)" }}
+                viewport={{ once: true, margin: "-10%" }}
+                transition={{ delay: 0.36 + index * 0.12, duration: 0.62, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <h3 className="font-accent mb-3 text-3xl font-normal italic leading-none text-roam-sage md:text-4xl">
+                  {block.label}
+                </h3>
+                <p className="text-base leading-relaxed text-roam-text-muted">
+                  {block.text}
+                </p>
+              </motion.article>
+            ))}
+          </div>
         </div>
 
-        {/* Right Side: Decorative Map/Abstract Elements */}
-        <div className="w-full md:w-2/5 relative h-[500px] flex items-center justify-center">
-          {/* Parallax abstract map shapes */}
-          <motion.div 
-            style={{ y: y1 }}
-            className="absolute top-10 right-10 w-64 h-64 border border-roam-sage/20 rounded-full"
-          />
-          <motion.div 
-            style={{ y: y2 }}
-            className="absolute bottom-10 left-0 w-48 h-48 bg-roam-sand/30 rounded-[40px] rotate-12"
-          />
-          
-          {/* Animated Route Line */}
-          <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 400 500">
-            <motion.path 
-              d="M 50,450 C 100,300 200,400 300,200 C 350,100 250,50 350,-50"
+        <motion.div
+          style={prefersReducedMotion ? undefined : { y }}
+          className="relative min-h-[620px] overflow-hidden rounded-[8px] border border-roam-border bg-roam-inner shadow-roam lg:min-h-full"
+          aria-hidden="true"
+        >
+          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(26,30,38,0.06)_1px,transparent_1px),linear-gradient(rgba(26,30,38,0.06)_1px,transparent_1px)] bg-[size:48px_48px]" />
+          <svg className="absolute inset-0 h-full w-full" viewBox="0 0 520 620">
+            <motion.path
+              d="M74 82 V536"
               fill="none"
-              stroke="var(--color-roam-sage)"
-              strokeWidth="3"
+              stroke="#5C734C"
+              strokeWidth="2"
               strokeLinecap="round"
-              initial={{ pathLength: 0 }}
-              whileInView={{ pathLength: 1 }}
+              initial={prefersReducedMotion ? false : { pathLength: 0 }}
+              whileInView={prefersReducedMotion ? undefined : { pathLength: 1 }}
               viewport={{ once: true, margin: "-20%" }}
-              transition={{ duration: 2, ease: "easeInOut" }}
+              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
             />
-            {/* Moving marker */}
-            <motion.circle 
-              r="6" 
-              fill="var(--color-roam-clay)"
-              initial={{ offsetDistance: "0%" }}
-              whileInView={{ offsetDistance: "100%" }}
+            <motion.path
+              d="M82 512 C 178 432 174 312 276 276 C 392 234 366 122 474 82"
+              fill="none"
+              stroke="#5C734C"
+              strokeWidth="5"
+              strokeLinecap="round"
+              strokeDasharray="10 14"
+              initial={prefersReducedMotion ? false : { pathLength: 0 }}
+              whileInView={prefersReducedMotion ? undefined : { pathLength: 1 }}
               viewport={{ once: true, margin: "-20%" }}
-              transition={{ duration: 2, ease: "easeInOut" }}
-              style={{
-                offsetPath: 'path("M 50,450 C 100,300 200,400 300,200 C 350,100 250,50 350,-50")',
-              }}
+              transition={{ duration: 2.4, ease: "easeInOut" }}
             />
+            <motion.path
+              d="M248 120 L410 164 L446 328 L332 452 L152 412 L96 242 Z"
+              fill="#5C734C"
+              style={prefersReducedMotion ? { opacity: 0.34 } : { opacity: regionOpacity }}
+            />
+            <path d="M110 318 L224 248 L338 310 L302 434 L164 446 Z" fill="rgba(191,87,63,0.18)" />
+            <circle cx="474" cy="82" r="8" fill="#BF573F" />
+            <circle cx="276" cy="276" r="7" fill="#1A1E26" />
+            <circle cx="82" cy="512" r="8" fill="#5C734C" />
+            {!prefersReducedMotion && (
+              <motion.circle
+                cx="474"
+                cy="82"
+                r="24"
+                fill="none"
+                stroke="#BF573F"
+                strokeWidth="2"
+                animate={{ r: [18, 30, 18], opacity: [0.38, 0.12, 0.38] }}
+                transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut" }}
+              />
+            )}
           </svg>
-        </div>
+          <motion.div
+            style={
+              prefersReducedMotion
+                ? undefined
+                : {
+                    offsetPath:
+                      'path("M82 512 C 178 432 174 312 276 276 C 392 234 366 122 474 82")',
+                    offsetDistance: marker,
+                  }
+            }
+            className="absolute left-0 top-0 h-5 w-5 rounded-full bg-roam-clay shadow-[0_0_0_10px_rgba(191,87,63,0.14)]"
+          />
+          <div className="absolute bottom-8 left-8 right-8 flex items-end justify-between">
+            <div>
+              <p className="font-mono text-xs uppercase tracking-[0.2em] text-roam-text-subtle">
+                Personal Map
+              </p>
+              <p className="mt-2 text-4xl font-bold tracking-tighter text-roam-ink">
+                68% revealed
+              </p>
+            </div>
+            <motion.div
+              className="rounded-full border border-roam-border-dark bg-roam-cream px-4 py-2 text-sm font-semibold text-roam-sage"
+              initial={prefersReducedMotion ? false : { opacity: 0, y: 10 }}
+              whileInView={prefersReducedMotion ? undefined : { opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-20%" }}
+              transition={{ duration: 0.35, delay: 1.65 }}
+            >
+              +420 XP
+            </motion.div>
+          </div>
+        </motion.div>
       </div>
     </section>
   );

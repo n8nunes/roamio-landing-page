@@ -30,6 +30,7 @@
   --radius-pill: 999px;
 
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-accent: var(--font-instrument-serif), Georgia, serif;
   
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -38,6 +39,18 @@
 :root {
   --background: var(--color-roam-cream);
   --foreground: var(--color-roam-ink);
+  --header-height-mobile: 80px;
+  --header-height-desktop: 112px;
+  --header-padding-mobile: 16px;
+  --header-padding-desktop: clamp(20px, 3vw, 48px);
+  --header-menu-size-mobile: 52px;
+  --header-menu-size-desktop: 72px;
+  --header-height: var(--header-height-mobile);
+  --scrollbar-compensation: 0px;
+  --menu-origin-x: calc(100% - 42px);
+  --menu-origin-y: 40px;
+  --menu-radius: 0px;
+  scroll-padding-top: var(--header-height);
 }
 
 .dark {
@@ -54,6 +67,20 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
+button,
+a {
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
 ::selection {
   background-color: var(--color-roam-sage);
   color: var(--color-roam-cream);
@@ -63,5 +90,249 @@ body {
   .perspective-1000 {
     perspective: 1000px;
   }
+
+  .footer-link {
+    @apply text-sm text-roam-cream/60 underline-offset-[0.22em] transition-[opacity,text-decoration-color] duration-200 hover:opacity-85 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-roam-dark-sage focus-visible:ring-offset-4 focus-visible:ring-offset-roam-ink;
+  }
+
+  .font-accent {
+    font-family: var(--font-accent);
+  }
 }
 
+.hero-fog-scene {
+  --reveal-x: 50%;
+  --reveal-y: 42%;
+  --reveal-size: clamp(420px, 58vw, 900px);
+  --reveal-ox: 0px;
+  --reveal-oy: 0px;
+  --reveal-morph-a: 0px;
+  --reveal-morph-b: 0px;
+  --reveal-morph-c: 0px;
+  --fog-density: 0.96;
+  --fog-mask:
+    radial-gradient(
+      ellipse calc(var(--reveal-size) * 0.86) calc(var(--reveal-size) * 0.56)
+      at calc(var(--reveal-x) - 72px + var(--reveal-morph-a)) calc(var(--reveal-y) + 34px + var(--reveal-morph-b)),
+      transparent 0 42%, rgba(0, 0, 0, 0.18) 62%, black 100%
+    ),
+    radial-gradient(
+      ellipse calc(var(--reveal-size) * 0.58) calc(var(--reveal-size) * 0.94)
+      at calc(var(--reveal-x) + 64px - var(--reveal-morph-b)) calc(var(--reveal-y) - 46px + var(--reveal-morph-a)),
+      transparent 0 38%, rgba(0, 0, 0, 0.22) 64%, black 100%
+    ),
+    radial-gradient(
+      ellipse calc(var(--reveal-size) * 0.64) calc(var(--reveal-size) * 0.46)
+      at calc(var(--reveal-x) + 130px + var(--reveal-morph-c)) calc(var(--reveal-y) + 78px - var(--reveal-morph-a)),
+      transparent 0 34%, rgba(0, 0, 0, 0.2) 66%, black 100%
+    ),
+    radial-gradient(
+      ellipse calc(var(--reveal-size) * 0.48) calc(var(--reveal-size) * 0.62)
+      at calc(var(--reveal-x) - 108px - var(--reveal-morph-c)) calc(var(--reveal-y) - 72px - var(--reveal-morph-b)),
+      transparent 0 36%, rgba(0, 0, 0, 0.2) 68%, black 100%
+    ),
+    radial-gradient(
+      ellipse calc(var(--reveal-size) * 0.42) calc(var(--reveal-size) * 0.36)
+      at calc(var(--reveal-x) + 22px + var(--reveal-morph-a)) calc(var(--reveal-y) + 112px + var(--reveal-morph-c)),
+      transparent 0 40%, rgba(0, 0, 0, 0.18) 70%, black 100%
+    );
+  min-height: calc(100svh - var(--header-height));
+}
+
+.hero-fog-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 8;
+  pointer-events: none;
+  -webkit-mask-image: var(--fog-mask);
+  mask-image: var(--fog-mask);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  transform-origin: center center;
+}
+
+.hero-fog-base {
+  background:
+    radial-gradient(ellipse at 22% 28%, rgba(255, 255, 255, 0.92), transparent 34%),
+    radial-gradient(ellipse at 76% 22%, rgba(242, 235, 220, 0.94), transparent 36%),
+    radial-gradient(ellipse at 44% 72%, rgba(255, 255, 255, 0.86), transparent 38%),
+    linear-gradient(135deg, rgba(242, 235, 220, 0.94), rgba(255, 255, 255, 0.68));
+  filter: blur(3px);
+  opacity: calc(0.78 + var(--fog-density) * 0.22);
+  animation: fog-breathe 28s ease-in-out infinite alternate;
+}
+
+.hero-fog-texture {
+  background:
+    repeating-radial-gradient(ellipse at 34% 46%, rgba(255, 255, 255, 0.34) 0 2px, transparent 2px 10px),
+    linear-gradient(90deg, rgba(242, 235, 220, 0.52), rgba(255, 255, 255, 0.3));
+  opacity: calc(0.34 + var(--fog-density) * 0.3);
+  animation: fog-texture-breathe 22s ease-in-out infinite alternate;
+}
+
+.hero-fog-scene[data-unveiling="true"] .hero-fog-base {
+  opacity: calc(0.9 + var(--fog-density) * 0.1);
+}
+
+.hero-dissolve-veil {
+  position: absolute;
+  inset: 0;
+  z-index: 9;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 50% 42%, rgba(242, 235, 220, 0.35), rgba(242, 235, 220, 0.82) 55%, rgba(255, 255, 255, 0.92)),
+    linear-gradient(180deg, rgba(242, 235, 220, 0.55), rgba(242, 235, 220, 0.75));
+  opacity: 1;
+  transition: opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.hero-fog-scene[data-dissolved="true"] .hero-dissolve-veil {
+  opacity: 0;
+}
+
+.hero-fog-scene[data-dissolve-ready="false"] .hero-content {
+  opacity: 0;
+}
+
+.hero-content {
+  opacity: 1;
+  transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.08s;
+}
+
+.hero-topo-layer {
+  animation: map-topo-breathe 14s ease-in-out infinite alternate;
+}
+
+.hero-map-contours {
+  animation: map-contour-drift 22s ease-in-out infinite alternate;
+  transform-origin: 50% 50%;
+}
+
+.hero-fog-scene:not([data-fog-active]) .hero-fog-base,
+.hero-fog-scene:not([data-fog-active]) .hero-fog-texture,
+.hero-fog-scene:not([data-fog-active]) .hero-topo-layer,
+.hero-fog-scene:not([data-fog-active]) .hero-map-contours {
+  animation-play-state: paused;
+}
+
+.navigation-overlay {
+  clip-path: circle(0px at var(--menu-origin-x) var(--menu-origin-y));
+  transition: clip-path 0.72s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: clip-path;
+}
+
+.navigation-overlay[data-open="true"] {
+  clip-path: circle(150vmax at var(--menu-origin-x) var(--menu-origin-y));
+}
+
+.navigation-overlay[data-open="false"] {
+  clip-path: circle(0px at var(--menu-origin-x) var(--menu-origin-y));
+}
+
+.header-logo-wordmark,
+.header-logo-mark {
+  display: block;
+  height: auto;
+  width: auto;
+  transition: filter 0.3s ease, opacity 0.3s ease;
+}
+
+.header-logo-wordmark {
+  height: clamp(1.75rem, 4.2vw, 3.25rem);
+  max-width: min(220px, 46vw);
+  object-fit: contain;
+}
+
+.header-logo-mark {
+  height: clamp(2.25rem, 3.4vw, 3rem);
+  width: clamp(2.25rem, 3.4vw, 3rem);
+  object-fit: contain;
+}
+
+.header-theme-cream .header-logo-wordmark,
+.header-theme-cream .header-logo-mark {
+  filter: brightness(0) invert(1);
+  opacity: 0.96;
+}
+
+@keyframes fog-breathe {
+  from {
+    opacity: calc(0.76 + var(--fog-density) * 0.2);
+  }
+  to {
+    opacity: calc(0.84 + var(--fog-density) * 0.2);
+  }
+}
+
+@keyframes fog-texture-breathe {
+  from {
+    opacity: calc(0.32 + var(--fog-density) * 0.28);
+  }
+  to {
+    opacity: calc(0.4 + var(--fog-density) * 0.28);
+  }
+}
+
+@keyframes map-contour-drift {
+  from {
+    transform: translate3d(-0.35%, 0.12%, 0);
+  }
+  to {
+    transform: translate3d(0.4%, -0.2%, 0);
+  }
+}
+
+@keyframes map-topo-breathe {
+  from {
+    opacity: 0.88;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (pointer: coarse) {
+  .hero-fog-scene {
+    --reveal-size: clamp(380px, 68vw, 720px);
+  }
+
+  .hero-fog-base,
+  .hero-fog-texture {
+    animation: none;
+  }
+
+  .hero-topo-layer {
+    animation: map-topo-breathe 18s ease-in-out infinite alternate;
+  }
+
+  .hero-map-contours {
+    animation: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+
+  .hero-fog-base,
+  .hero-fog-texture,
+  .hero-topo-layer,
+  .hero-map-contours,
+  .hero-dissolve-veil,
+  .hero-content,
+  .navigation-overlay {
+    animation: none;
+    transition: opacity 0.25s ease;
+  }
+}
+
+@media (min-width: 768px) {
+  :root {
+    --header-height: var(--header-height-desktop);
+  }
+}

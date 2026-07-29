@@ -58,7 +58,7 @@ export function DeviceMockup({ children, className, interactive = true }: Device
         <div className="absolute top-0 inset-x-0 h-6 flex justify-center z-50">
           <div className="w-24 h-6 bg-black rounded-b-3xl"></div>
         </div>
-        <div className="w-full h-full rounded-[32px] overflow-hidden bg-roam-dark-background">
+        <div className="w-full h-full rounded-[32px] overflow-hidden bg-roam-dark-bg">
           {children}
         </div>
       </motion.div>

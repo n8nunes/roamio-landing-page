@@ -1,8 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { cn } from "@/lib/utils";
-
 const teamMembers = [
   { id: 1, name: "Amarprit Singh", role: "[Team role required]" },
   { id: 2, name: "Kevin Phan", role: "[Team role required]" },
@@ -31,13 +29,11 @@ export function Team() {
           {teamMembers.map((member, i) => (
             <motion.div 
               key={member.id}
-              className="group relative bg-roam-sand/20 rounded-3xl overflow-hidden aspect-[3/4] flex flex-col justify-end p-6 border border-roam-border cursor-crosshair"
+              className="group relative bg-roam-sand/20 rounded-3xl overflow-hidden aspect-[3/4] flex flex-col justify-end p-6 border border-roam-border cursor-pointer"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.05 }}
-              data-cursor-interactable="true"
-              data-cursor-text="View"
             >
               {/* Background hover reveal layer */}
               <div className="absolute inset-0 bg-roam-sage/10 translate-y-full transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-y-0" />
