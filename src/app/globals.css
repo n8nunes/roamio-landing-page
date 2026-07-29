@@ -1,0 +1,67 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-roam-ink: #1A1E26;
+  --color-roam-sage: #5C734C;
+  --color-roam-sand: #D9C6A3;
+  --color-roam-cream: #F2EBDC;
+  --color-roam-clay: #BF573F;
+  --color-roam-inner: #F6EBD8;
+
+  --color-roam-dark-bg: #101216;
+  --color-roam-dark-surface: #171A20;
+  --color-roam-dark-inner: #242832;
+  --color-roam-dark-soft: #20242C;
+  --color-roam-dark-text: #ECE7DC;
+  --color-roam-dark-sage: #9EB58D;
+  --color-roam-dark-muted: #B5B0A6;
+
+  --color-roam-text-muted: rgba(26, 30, 38, 0.6);
+  --color-roam-text-subtle: rgba(26, 30, 38, 0.42);
+  --color-roam-border: rgba(92, 115, 76, 0.12);
+  --color-roam-border-dark: rgba(92, 115, 76, 0.24);
+
+  --shadow-roam: 0 5px 12px rgba(0, 0, 0, 0.08);
+  --shadow-roam-dark: 0 5px 12px rgba(0, 0, 0, 0.18);
+
+  --radius-sm: 12px;
+  --radius-md: 18px;
+  --radius-lg: 24px;
+  --radius-pill: 999px;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+}
+
+:root {
+  --background: var(--color-roam-cream);
+  --foreground: var(--color-roam-ink);
+}
+
+.dark {
+  --background: var(--color-roam-dark-bg);
+  --foreground: var(--color-roam-dark-text);
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background-color: var(--color-roam-sage);
+  color: var(--color-roam-cream);
+}
+
+@layer utilities {
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+}
+
