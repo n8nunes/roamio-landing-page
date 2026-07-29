@@ -29,7 +29,6 @@ export function Editorial() {
     offset: ["start end", "end start"],
   });
 
-  const marker = useTransform(scrollYProgress, [0.12, 0.82], ["0%", "100%"]);
   const regionOpacity = useTransform(scrollYProgress, [0.2, 0.55, 0.85], [0.18, 0.48, 0.28]);
   const y = useTransform(scrollYProgress, [0, 1], [70, -50]);
 
@@ -126,18 +125,6 @@ export function Editorial() {
               />
             )}
           </svg>
-          <motion.div
-            style={
-              prefersReducedMotion
-                ? undefined
-                : {
-                    offsetPath:
-                      'path("M82 512 C 178 432 174 312 276 276 C 392 234 366 122 474 82")',
-                    offsetDistance: marker,
-                  }
-            }
-            className="absolute left-0 top-0 h-5 w-5 rounded-full bg-roam-clay shadow-[0_0_0_10px_rgba(191,87,63,0.14)]"
-          />
           <div className="absolute bottom-8 left-8 right-8 flex items-end justify-between">
             <div>
               <p className="font-mono text-xs uppercase tracking-[0.2em] text-roam-text-subtle">

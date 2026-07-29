@@ -487,7 +487,7 @@ export function Hero() {
             transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
           >
             <h1 className="max-w-5xl text-[2rem] font-bold leading-[1] tracking-tighter text-roam-ink sm:text-6xl sm:leading-[0.9] md:text-8xl md:leading-[0.86] lg:text-[9.6rem]">
-              Unlock the city by exploring it.
+              Unlock Your City Through Exploration.
             </h1>
             <p className="mx-auto mt-8 max-w-2xl text-lg font-medium leading-relaxed text-roam-ink/72 md:text-xl">
               Reveal new regions, discover nearby places and build a personal

@@ -160,21 +160,41 @@ function MapPanel({ active }: { active: boolean }) {
     <div className="relative h-full w-full overflow-hidden bg-roam-inner">
       <svg className="absolute inset-0 h-full w-full" viewBox="0 0 520 620" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
         <rect width="520" height="620" fill="#F2EBDC" />
-        <g stroke="#B8C7D4" strokeWidth="8" strokeLinecap="round" opacity="0.65">
+        <g stroke="rgba(26,30,38,0.06)" strokeWidth="1">
+          {Array.from({ length: 13 }, (_, i) => (
+            <path key={`h-${i}`} d={`M0 ${48 + i * 48} H520`} />
+          ))}
+          {Array.from({ length: 11 }, (_, i) => (
+            <path key={`v-${i}`} d={`M${48 + i * 48} 0 V620`} />
+          ))}
+        </g>
+        <g stroke="#B8C7D4" strokeWidth="7" strokeLinecap="round" opacity="0.55">
           <path d="M-40 180 C96 144 180 196 296 164 C386 138 438 104 562 120" />
           <path d="M-60 422 C96 360 190 434 318 360 C422 300 468 336 574 278" />
           <path d="M120 -36 C152 96 118 210 174 316 C234 430 190 520 246 662" />
           <path d="M378 -40 C330 110 410 224 340 368 C286 476 356 566 304 660" />
         </g>
-        <g fill="none" stroke="#5C734C" strokeWidth="2" opacity="0.32">
-          <path d="M76 134 L204 76 L300 156 L270 302 L112 318 L40 214 Z" />
-          <path d="M260 340 L430 300 L510 432 L404 560 L242 528 L190 420 Z" />
-        </g>
-        <path d="M212 488 C286 410 292 330 362 272 C414 228 432 186 490 132" fill="none" stroke="#5C734C" strokeWidth="5" strokeDasharray="10 13" />
-        <circle cx="362" cy="272" r="10" fill="#5C734C" />
-        <circle cx="490" cy="132" r="13" fill="#BF573F" />
-        <text x="74" y="374" fill="#1A1E26" opacity="0.58" fontSize="28" fontWeight="800">CLAYTON</text>
-        <text x="260" y="252" fill="#1A1E26" opacity="0.45" fontSize="18" fontFamily="monospace">UNLOCKED 68%</text>
+        <path d="M248 120 L410 164 L446 328 L332 452 L152 412 L96 242 Z" fill="#5C734C" opacity="0.34" />
+        <path d="M110 318 L224 248 L338 310 L302 434 L164 446 Z" fill="rgba(191,87,63,0.18)" />
+        <path d="M74 82 V536" fill="none" stroke="#5C734C" strokeWidth="2" strokeLinecap="round" opacity="0.55" />
+        <path
+          d="M82 512 C 178 432 174 312 276 276 C 392 234 366 122 474 82"
+          fill="none"
+          stroke="#5C734C"
+          strokeWidth="5"
+          strokeLinecap="round"
+          strokeDasharray="10 14"
+        />
+        <circle cx="82" cy="512" r="8" fill="#5C734C" />
+        <circle cx="276" cy="276" r="7" fill="#1A1E26" />
+        <circle cx="474" cy="82" r="10" fill="#BF573F" />
+        <circle cx="474" cy="82" r="22" fill="none" stroke="#BF573F" strokeWidth="2" opacity="0.35" />
+        <text x="88" y="560" fill="#1A1E26" opacity="0.55" fontSize="26" fontWeight="800">
+          CLAYTON
+        </text>
+        <text x="88" y="588" fill="#1A1E26" opacity="0.4" fontSize="14" fontFamily="monospace" letterSpacing="2">
+          68% REVEALED
+        </text>
       </svg>
       <div className={cn("absolute inset-0 bg-roam-sage/20 transition-opacity duration-500", active ? "opacity-0" : "opacity-45 grayscale")} />
     </div>
@@ -185,15 +205,33 @@ function PhonePanel({ active }: { active: boolean }) {
   return (
     <div className="relative h-full w-full overflow-hidden bg-roam-ink p-3">
       <div className="mx-auto h-full max-w-[210px] rounded-[30px] border-[6px] border-roam-dark-bg bg-roam-cream p-3">
-        <div className="h-full overflow-hidden rounded-[22px] bg-roam-inner">
-          <div className="h-1/2 bg-[linear-gradient(90deg,rgba(26,30,38,0.08)_1px,transparent_1px),linear-gradient(rgba(26,30,38,0.08)_1px,transparent_1px)] bg-[size:28px_28px]" />
-          <div className="p-4">
-            <p className="text-xs font-black uppercase tracking-[0.18em] text-roam-sage">Region unlocked</p>
-            <p className="mt-2 text-3xl font-black tracking-tighter text-roam-ink">North Grid</p>
-            <div className="mt-5 h-2 overflow-hidden rounded-full bg-roam-ink/10">
+        <div className="flex h-full flex-col overflow-hidden rounded-[22px] bg-roam-inner">
+          <div className="relative h-[48%] overflow-hidden">
+            <svg className="absolute inset-0 h-full w-full" viewBox="0 0 200 180" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+              <rect width="200" height="180" fill="#EDE4D4" />
+              <g fill="none" stroke="#5C734C" strokeWidth="1.2" opacity="0.28">
+                <path d="M20 40 L70 18 L110 48 L96 110 L28 118 L8 72 Z" />
+                <path d="M96 88 L150 72 L178 118 L138 158 L84 148 L66 112 Z" />
+              </g>
+              <path
+                d="M28 150 C58 118 72 96 108 78 C138 62 148 42 178 22"
+                fill="none"
+                stroke="#5C734C"
+                strokeWidth="3.5"
+                strokeLinecap="round"
+                strokeDasharray="6 8"
+              />
+              <circle cx="108" cy="78" r="5" fill="#5C734C" />
+              <circle cx="178" cy="22" r="7" fill="#BF573F" />
+            </svg>
+          </div>
+          <div className="flex flex-1 flex-col justify-end p-4">
+            <p className="text-[10px] font-black uppercase tracking-[0.18em] text-roam-sage">Region unlocked</p>
+            <p className="mt-1.5 text-2xl font-black tracking-tighter text-roam-ink">North Grid</p>
+            <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-roam-ink/10">
               <div className="h-full w-[74%] rounded-full bg-roam-sage" />
             </div>
-            <p className="mt-4 inline-flex rounded-full bg-roam-sage px-3 py-1 text-sm font-black text-white">+250 XP</p>
+            <p className="mt-3 text-sm font-black text-roam-sage">+250 XP</p>
           </div>
         </div>
       </div>
@@ -207,15 +245,15 @@ function VisitPanel({ active }: { active: boolean }) {
     <div className="relative h-full w-full overflow-hidden bg-roam-inner p-5 text-roam-ink">
       <p className="text-xs font-black uppercase tracking-[0.2em] text-roam-sage">Visit</p>
       <h3 className="mt-2 text-3xl font-black tracking-tighter">Market Lane</h3>
-      <div className="mt-5 space-y-3">
-        <div className="h-12 rounded-[8px] bg-roam-cream" />
-        <div className="h-24 rounded-[8px] bg-roam-cream" />
-        <div className="grid grid-cols-3 gap-2">
-          <div className="aspect-square rounded-[8px] bg-roam-sand" />
-          <div className="aspect-square rounded-[8px] bg-roam-sage/45" />
-          <div className="aspect-square rounded-[8px] bg-roam-clay/35" />
-        </div>
+      <p className="mt-3 max-w-[18rem] text-sm leading-relaxed text-roam-text-muted">
+        Corner bakery, late light, and a route you would not have taken twice.
+      </p>
+      <div className="mt-5 flex gap-2">
+        <div className="h-16 flex-1 bg-roam-sand" />
+        <div className="h-16 flex-1 bg-roam-sage/45" />
+        <div className="h-16 flex-1 bg-roam-clay/40" />
       </div>
+      <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.18em] text-roam-text-subtle">Saved · +120 XP</p>
       <div className={cn("absolute inset-0 bg-roam-ink/35 transition-opacity duration-500", active ? "opacity-0" : "opacity-55 grayscale")} />
     </div>
   );
@@ -224,20 +262,28 @@ function VisitPanel({ active }: { active: boolean }) {
 function AnalyticsPanel({ active }: { active: boolean }) {
   return (
     <div className="relative h-full w-full overflow-hidden bg-roam-dark-bg p-5 text-roam-cream">
-      <p className="text-xs font-black uppercase tracking-[0.2em] text-roam-dark-sage">Analytics</p>
-      <div className="mt-6 grid grid-cols-2 gap-3">
-        <div className="rounded-[8px] bg-white/8 p-4">
-          <p className="text-xs text-roam-cream/45">XP</p>
-          <p className="text-3xl font-black">12.4k</p>
+      <p className="text-xs font-black uppercase tracking-[0.2em] text-roam-dark-sage">This week</p>
+      <div className="mt-6 flex items-end justify-between gap-6">
+        <div>
+          <p className="text-xs uppercase tracking-[0.16em] text-roam-cream/45">XP earned</p>
+          <p className="mt-1 text-4xl font-black tracking-tighter">12.4k</p>
         </div>
-        <div className="rounded-[8px] bg-white/8 p-4">
-          <p className="text-xs text-roam-cream/45">Visits</p>
-          <p className="text-3xl font-black">142</p>
+        <div className="text-right">
+          <p className="text-xs uppercase tracking-[0.16em] text-roam-cream/45">Visits</p>
+          <p className="mt-1 text-3xl font-black tracking-tighter">142</p>
         </div>
       </div>
-      <svg className="mt-7 h-28 w-full" viewBox="0 0 260 120" aria-hidden="true">
-        <path d="M10 100 C54 60 76 92 112 48 C150 4 182 58 246 22" fill="none" stroke="#9EB58D" strokeWidth="8" strokeLinecap="round" />
+      <svg className="mt-8 h-24 w-full" viewBox="0 0 260 100" aria-hidden="true">
+        <path
+          d="M8 82 C42 70 58 88 88 52 C118 18 142 64 176 36 C204 14 228 28 252 12"
+          fill="none"
+          stroke="#9EB58D"
+          strokeWidth="4"
+          strokeLinecap="round"
+        />
+        <circle cx="252" cy="12" r="6" fill="#BF573F" />
       </svg>
+      <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.18em] text-roam-cream/40">Route momentum · rising</p>
       <div className={cn("absolute inset-0 bg-roam-ink/30 transition-opacity duration-500", active ? "opacity-0" : "opacity-55 grayscale")} />
     </div>
   );
@@ -245,49 +291,131 @@ function AnalyticsPanel({ active }: { active: boolean }) {
 
 function TeamPanel({ active }: { active: boolean }) {
   return (
-    <div className="relative h-full w-full overflow-hidden bg-roam-cream p-5 text-roam-ink">
-      <p className="text-xs font-black uppercase tracking-[0.2em] text-roam-sage">Project</p>
-      <h3 className="mt-2 text-3xl font-black tracking-tighter">Build log</h3>
-      <div className="mt-5 rounded-[8px] bg-roam-ink p-4 font-mono text-xs leading-6 text-roam-cream/65">
-        <p><span className="text-roam-dark-sage">git</span> status</p>
-        <p>map unlock flow</p>
-        <p>visit media notes</p>
-        <p>analytics dashboard</p>
-      </div>
-      <div className="mt-5 flex -space-x-3">
-        {["A", "K", "N", "S"].map((name) => (
-          <span key={name} className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-roam-cream bg-roam-sage text-sm font-black text-white">{name}</span>
-        ))}
-      </div>
+    <div className="relative h-full w-full overflow-hidden bg-roam-ink">
+      <Image
+        src="/photos/first_roam.jpg"
+        alt=""
+        fill
+        sizes="(min-width: 1024px) 28vw, 0px"
+        className="object-cover object-[center_35%]"
+      />
       <div className={cn("absolute inset-0 bg-roam-ink/35 transition-opacity duration-500", active ? "opacity-0" : "opacity-55 grayscale")} />
     </div>
   );
 }
 
 function ProductCollage({ activePreview, reduced }: { activePreview: PreviewKey; reduced: boolean }) {
-  const itemClass = (key: PreviewKey) =>
+  const itemClass = (key: PreviewKey, inactiveLayer: string) =>
     cn(
-      "absolute overflow-hidden rounded-[8px] border border-roam-cream/10 shadow-roam-dark transition-[filter,opacity,transform] duration-[450ms] ease-[cubic-bezier(0.22,1,0.36,1)]",
-      key === activePreview ? "opacity-100 grayscale-0 scale-[1.035]" : "opacity-42 grayscale"
+      "absolute overflow-hidden rounded-[10px] border border-roam-cream/10 shadow-roam-dark transition-[filter,opacity,transform] duration-[450ms] ease-[cubic-bezier(0.22,1,0.36,1)]",
+      key === activePreview
+        ? "z-40 scale-[1.035] opacity-100 grayscale-0"
+        : cn(inactiveLayer, "scale-100 opacity-30 grayscale")
     );
 
   return (
     <div className="relative hidden min-h-[calc(100svh-var(--header-height))] overflow-hidden lg:block">
-      <motion.div className={cn(itemClass("home"), "left-[6%] top-[22%] h-[42vh] w-[38vw] max-w-[520px]")} animate={reduced ? undefined : { y: activePreview === "home" ? -8 : 0 }}>
-        <MapPanel active={activePreview === "home"} />
-      </motion.div>
-      <motion.div className={cn(itemClass("app"), "left-[44%] top-[14%] h-[44vh] w-[18vw] max-w-[270px]")} animate={reduced ? undefined : { y: activePreview === "app" ? 8 : 0 }}>
-        <PhonePanel active={activePreview === "app"} />
-      </motion.div>
-      <motion.div className={cn(itemClass("app"), "left-[16%] bottom-[10%] h-[26vh] w-[25vw] max-w-[360px]")} animate={reduced ? undefined : { x: activePreview === "app" ? 10 : 0 }}>
-        <VisitPanel active={activePreview === "app"} />
-      </motion.div>
-      <motion.div className={cn(itemClass("app"), "left-[48%] bottom-[16%] h-[25vh] w-[22vw] max-w-[330px]")} animate={reduced ? undefined : { y: activePreview === "app" ? -8 : 0 }}>
-        <AnalyticsPanel active={activePreview === "app"} />
-      </motion.div>
-      <motion.div className={cn(itemClass("team"), "left-[8%] top-[58%] h-[28vh] w-[21vw] max-w-[320px]")} animate={reduced ? undefined : { x: activePreview === "team" ? 12 : 0 }}>
-        <TeamPanel active={activePreview === "team"} />
-      </motion.div>
+      {/*
+       * Keep the original scattered collage direction, but treat the cards as
+       * one connected stack. Every panel overlaps at least one neighbouring
+       * panel so there are no isolated gaps between the visuals.
+       */}
+      <div className="absolute inset-x-[3%] inset-y-[3%]">
+        {/* Home map — large foundation card */}
+        <motion.div
+          className={cn(
+            itemClass("home", "z-10"),
+            "left-0 top-[2%] h-[47%] w-[50%]"
+          )}
+          animate={
+            reduced
+              ? undefined
+              : {
+                  x: activePreview === "home" ? -5 : 0,
+                  y: activePreview === "home" ? -8 : 0,
+                }
+          }
+          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <MapPanel active={activePreview === "home"} />
+        </motion.div>
+
+        {/* App phone — overlaps the right edge of the map */}
+        <motion.div
+          className={cn(
+            itemClass("app", "z-20"),
+            "left-[43%] top-0 h-[47%] w-[24%]"
+          )}
+          animate={
+            reduced
+              ? undefined
+              : {
+                  x: activePreview === "app" ? 7 : 0,
+                  y: activePreview === "app" ? -5 : 0,
+                }
+          }
+          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <PhonePanel active={activePreview === "app"} />
+        </motion.div>
+
+        {/* Team image — overlaps the lower edge of the map */}
+        <motion.div
+          className={cn(
+            itemClass("team", "z-20"),
+            "bottom-0 left-[1%] h-[53%] w-[39%]"
+          )}
+          animate={
+            reduced
+              ? undefined
+              : {
+                  x: activePreview === "team" ? -5 : 0,
+                  y: activePreview === "team" ? 6 : 0,
+                }
+          }
+          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <TeamPanel active={activePreview === "team"} />
+        </motion.div>
+
+        {/* Visit card — bridges the team image, map and phone */}
+        <motion.div
+          className={cn(
+            itemClass("app", "z-30"),
+            "left-[33%] top-[46%] h-[32%] w-[37%]"
+          )}
+          animate={
+            reduced
+              ? undefined
+              : {
+                  x: activePreview === "app" ? 8 : 0,
+                  y: activePreview === "app" ? -5 : 0,
+                }
+          }
+          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <VisitPanel active={activePreview === "app"} />
+        </motion.div>
+
+        {/* Analytics — overlaps the visit card and closes the cluster */}
+        <motion.div
+          className={cn(
+            itemClass("app", "z-20"),
+            "bottom-[3%] left-[61%] h-[35%] w-[36%]"
+          )}
+          animate={
+            reduced
+              ? undefined
+              : {
+                  x: activePreview === "app" ? 6 : 0,
+                  y: activePreview === "app" ? -8 : 0,
+                }
+          }
+          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <AnalyticsPanel active={activePreview === "app"} />
+        </motion.div>
+      </div>
     </div>
   );
 }
@@ -668,5 +796,4 @@ export function Navigation() {
     </header>
   );
 }
-
 
