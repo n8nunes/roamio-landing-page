@@ -1,15 +1,14 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+
 const teamMembers = [
-  { id: 1, name: "Amarprit Singh", role: "[Team role required]" },
-  { id: 2, name: "Kevin Phan", role: "[Team role required]" },
-  { id: 3, name: "Nathan Nunes", role: "[Team role required]" },
-  { id: 4, name: "Sanjevan Rajasegar", role: "[Team role required]" },
-  { id: 5, name: "Alvin Liong", role: "[Team role required]" },
-  { id: 6, name: "Jacob de la Paz", role: "[Team role required]" },
-  { id: 7, name: "Sam Sutherland", role: "[Team role required]" },
-  { id: 8, name: "Rushil Patel", role: "[Team role required]" },
+  { id: 1, name: "Nathan Nunes", role: "Product Manager" },
+  { id: 2, name: "Alvin Liong", role: "Software Architect" },
+  { id: 3, name: "Sanjevan Rajasegar", role: "Release Train Engineer" },
+  { id: 4, name: "Jacob De La Paz", role: "Product Manager" },
 ];
 
 export function Team() {
@@ -20,9 +19,16 @@ export function Team() {
           <h2 className="text-5xl md:text-7xl font-bold tracking-tighter text-roam-ink mb-6">
             The people building <br className="hidden md:block"/> Roam.io
           </h2>
-          <p className="text-xl text-roam-text-muted max-w-2xl mx-auto leading-relaxed">
+          <p className="text-xl text-roam-text-muted max-w-2xl mx-auto leading-relaxed mb-12">
             Built by a multidisciplinary student team exploring how software, maps and game mechanics can encourage people to experience the places around them.
           </p>
+          <Link 
+            href="/about-the-team" 
+            className="inline-flex items-center justify-center px-8 py-4 rounded-full bg-roam-ink text-roam-cream font-semibold tracking-wide transition-transform hover:-translate-y-1 hover:shadow-roam-dark group"
+          >
+            Meet the Full Team
+            <ArrowRight className="w-5 h-5 ml-2 transform group-hover:translate-x-1 transition-transform" />
+          </Link>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
