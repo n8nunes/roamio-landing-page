@@ -19,7 +19,7 @@ const instrumentSerif = Instrument_Serif({
 });
 
 export const metadata: Metadata = {
-  title: "Roam.io - Uncover the world around you",
+  title: "Roam.io - Rewarding Your Curiosity",
   description: "Unlock the city by exploring it. Reveal regions, discover places, and build a personal map shaped by where you have been.",
 };
 

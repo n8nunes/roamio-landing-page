@@ -13,40 +13,54 @@ const teamMembers = [
 
 export function Team() {
   return (
-    <section className="relative w-full py-32 bg-roam-cream overflow-hidden px-6 md:px-12" id="team">
-      <div className="max-w-7xl mx-auto">
-        <div className="mb-24 text-center">
-          <h2 className="text-5xl md:text-7xl font-bold tracking-tighter text-roam-ink mb-6">
-            The people building <br className="hidden md:block"/> Roam.io
+    <section
+      id="team"
+      className="relative flex min-h-screen w-full items-center justify-center overflow-hidden bg-roam-cream px-6 py-16 md:px-12"
+    >
+      <div className="mx-auto w-full max-w-7xl">
+        <div className="mb-12 text-center">
+          <h2 className="mb-5 text-5xl font-bold tracking-tighter text-roam-ink md:text-7xl">
+            The people building
+            <br className="hidden md:block" /> Roam.io
           </h2>
-          <p className="text-xl text-roam-text-muted max-w-2xl mx-auto leading-relaxed mb-12">
-            Built by a multidisciplinary student team exploring how software, maps and game mechanics can encourage people to experience the places around them.
+
+          <p className="mx-auto mb-8 max-w-2xl text-lg leading-relaxed text-roam-text-muted md:text-xl">
+            Built by a multidisciplinary student team exploring how software,
+            maps and game mechanics can encourage people to experience the
+            places around them.
           </p>
-          <Link 
-            href="/about-the-team" 
-            className="inline-flex items-center justify-center px-8 py-4 rounded-full bg-roam-ink text-roam-cream font-semibold tracking-wide transition-transform hover:-translate-y-1 hover:shadow-roam-dark group"
+
+          <Link
+            href="/about-the-team"
+            className="group inline-flex items-center justify-center rounded-full bg-roam-ink px-8 py-4 font-semibold tracking-wide text-roam-cream transition-transform hover:-translate-y-1 hover:shadow-roam-dark"
           >
             Meet the Full Team
-            <ArrowRight className="w-5 h-5 ml-2 transform group-hover:translate-x-1 transition-transform" />
+
+            <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
           </Link>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
-          {teamMembers.map((member, i) => (
-            <motion.div 
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-8">
+          {teamMembers.map((member, index) => (
+            <motion.div
               key={member.id}
-              className="group relative bg-roam-sand/20 rounded-3xl overflow-hidden aspect-[3/4] flex flex-col justify-end p-6 border border-roam-border cursor-pointer"
+              className="group relative flex aspect-[3/4] cursor-pointer flex-col justify-end overflow-hidden rounded-3xl border border-roam-border bg-roam-sand/20 p-6"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.05 }}
+              transition={{
+                duration: 0.5,
+                delay: index * 0.05,
+              }}
             >
-              {/* Background hover reveal layer */}
-              <div className="absolute inset-0 bg-roam-sage/10 translate-y-full transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-y-0" />
-              
+              <div className="absolute inset-0 translate-y-full bg-roam-sage/10 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-y-0" />
+
               <div className="relative z-10 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-4">
-                <h3 className="text-xl md:text-2xl font-bold text-roam-ink">{member.name}</h3>
-                <p className="text-roam-text-muted mt-1 font-mono text-xs uppercase tracking-wider opacity-0 transition-opacity duration-300 group-hover:opacity-100 delay-100">
+                <h3 className="text-xl font-bold text-roam-ink md:text-2xl">
+                  {member.name}
+                </h3>
+
+                <p className="mt-1 font-mono text-xs uppercase tracking-wider text-roam-text-muted opacity-0 transition-opacity delay-100 duration-300 group-hover:opacity-100">
                   {member.role}
                 </p>
               </div>

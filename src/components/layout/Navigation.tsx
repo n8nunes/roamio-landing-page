@@ -488,6 +488,7 @@ export function Navigation() {
   const reduced = Boolean(prefersReducedMotion);
   const currentPreview = previewFromPathname(pathname);
   const useCreamHeader = isExpanded || headerTheme === "dark";
+  const hideCenterLogoMark = pathname === "/app-overview";
 
   const applyMenuOrigin = (target: HTMLElement | null = menuRef.current) => {
     const rect = triggerRef.current?.getBoundingClientRect();
@@ -527,7 +528,9 @@ export function Navigation() {
     }, 720);
   };
 
-  closeMenuRef.current = closeMenu;
+  useEffect(() => {
+    closeMenuRef.current = closeMenu;
+  });
 
   useEffect(() => {
     applyMenuOrigin();
@@ -565,10 +568,7 @@ export function Navigation() {
   }, [isExpanded, pathname]);
 
   useEffect(() => {
-    if (!isOpen) {
-      setMenuContentReady(false);
-      return;
-    }
+    if (!isOpen) return;
 
     applyMenuOrigin(menuRef.current);
     const expandFrame = window.requestAnimationFrame(() => {
@@ -676,8 +676,11 @@ export function Navigation() {
           onClick={() => closeMenu()}
           className={cn(
             "hidden cursor-pointer rounded-full p-2 transition hover:rotate-12 focus:outline-none focus-visible:ring-2 focus-visible:ring-roam-sage focus-visible:ring-offset-4 md:block motion-reduce:hover:rotate-0",
+            hideCenterLogoMark && "md:invisible md:pointer-events-none",
             useCreamHeader ? "focus-visible:ring-offset-roam-ink" : "focus-visible:ring-offset-roam-cream"
           )}
+          aria-hidden={hideCenterLogoMark}
+          tabIndex={hideCenterLogoMark ? -1 : undefined}
         >
           <Image
             src="/logos/roam_io_logo.png"
@@ -796,4 +799,3 @@ export function Navigation() {
     </header>
   );
 }
-

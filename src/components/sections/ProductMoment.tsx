@@ -8,7 +8,7 @@ const sequence = [
   { verb: "Move", rest: "through the city." },
   { verb: "Unlock", rest: "what's hidden." },
   { verb: "Discover", rest: "what's nearby." },
-  { verb: "Remember", rest: "where you've been." },
+  { verb: "Remember", rest: "your journey." },
 ];
 
 export function ProductMoment() {
