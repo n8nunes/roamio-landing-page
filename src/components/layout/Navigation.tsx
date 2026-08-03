@@ -557,10 +557,26 @@ export function Navigation() {
     window.addEventListener("scroll", queueTheme, { passive: true });
     window.addEventListener("resize", queueTheme, { passive: true });
 
+    const observer = new MutationObserver((mutations) => {
+      for (const mutation of mutations) {
+        if (mutation.attributeName === "data-header-theme") {
+          queueTheme();
+          break;
+        }
+      }
+    });
+
+    observer.observe(document.body, {
+      attributes: true,
+      attributeFilter: ["data-header-theme"],
+      subtree: true,
+    });
+
     return () => {
       if (themeFrameRef.current !== null) window.cancelAnimationFrame(themeFrameRef.current);
       window.removeEventListener("scroll", queueTheme);
       window.removeEventListener("resize", queueTheme);
+      observer.disconnect();
     };
   }, [isExpanded, pathname]);
 

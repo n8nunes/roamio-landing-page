@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useMotionValueEvent, useSpring, useMotionValue } from "framer-motion";
 import { DeviceMockup } from "@/components/ui/DeviceMockup";
 import { Trophy, Camera, Sun, Moon, MapPin } from "lucide-react";
@@ -31,10 +31,39 @@ export function AppOverviewExperience() {
 
   const activeTheme = manualTheme || scrollTheme;
 
+  // We need to keep track of total path length manually for perfect SVG dash calculations
+  const [pathLen, setPathLen] = useState(0);
+
+  useEffect(() => {
+    if (pathRef.current) {
+      setPathLen(pathRef.current.getTotalLength());
+    }
+  }, []);
+
   // --- Angular Path & Dynamic Arrow Tracking ---
-  // The path draws from 0 to 1 as we scroll
-  const pathLength = useTransform(smoothScroll, [0, 0.95], [0, 1]);
-  const arrowOpacity = useTransform(scrollYProgress, [0, 0.02, 0.95, 0.98], [0, 1, 1, 0]);
+  // The path draws a short tail behind the arrow
+  const tailLength = 0.15;
+  
+  const dashArray = useTransform(smoothScroll, (v) => {
+    if (!pathLen) return "0 100000";
+    const tailPixels = tailLength * pathLen;
+    const currentLen = v * pathLen;
+    const l = Math.min(tailPixels, currentLen);
+    const gap = pathLen * 2; // huge gap to prevent repeating dashes
+    return `${l} ${gap}`;
+  });
+
+  const dashOffset = useTransform(smoothScroll, (v) => {
+    if (!pathLen) return 0;
+    const tailPixels = tailLength * pathLen;
+    const currentLen = v * pathLen;
+    const l = Math.min(tailPixels, currentLen);
+    const gap = pathLen * 2;
+    const start = currentLen - l;
+    return (l + gap) - start;
+  });
+
+  const arrowOpacity = useTransform(scrollYProgress, [0, 0.02, 0.99, 1], [0, 1, 1, 0]);
   
   const arrowX = useMotionValue(500);
   const arrowY = useMotionValue(0);
@@ -44,7 +73,7 @@ export function AppOverviewExperience() {
   useMotionValueEvent(smoothScroll, "change", (latest) => {
     if (pathRef.current) {
       // Map scroll range to path length
-      const drawProgress = Math.min(Math.max(latest / 0.95, 0), 1);
+      const drawProgress = Math.min(Math.max(latest, 0), 1);
       const totalLength = pathRef.current.getTotalLength();
       if (totalLength === 0) return;
 
@@ -95,6 +124,7 @@ export function AppOverviewExperience() {
   return (
     <section 
       ref={containerRef}
+      data-header-theme={activeTheme}
       className={`relative w-full h-[1000vh] transition-colors duration-500 ease-in-out ${activeTheme === "dark" ? "bg-[#1A1E26] text-[#F2EBDC]" : "bg-[#F2EBDC] text-[#1A1E26]"}`}
     >
       <div className="sticky top-0 w-full h-screen overflow-hidden flex items-center justify-center px-6 md:px-12">
@@ -108,17 +138,7 @@ export function AppOverviewExperience() {
             viewBox="0 0 1000 1000"
             preserveAspectRatio="none"
           >
-            {/* The background faint track */}
-            <path
-              d="M 500,0 L 500,200 Q 500,250 450,250 L 250,250 Q 200,250 200,300 L 200,450 Q 200,500 250,500 L 750,500 Q 800,500 800,550 L 800,700 Q 800,750 750,750 L 550,750 Q 500,750 500,800 L 500,1000"
-              fill="none"
-              stroke="#5C734C"
-              strokeWidth="4"
-              strokeOpacity="0.15"
-              vectorEffect="non-scaling-stroke"
-            />
-            
-            {/* The animated drawing green path */}
+            {/* The actual drawing green path */}
             <motion.path
               ref={pathRef}
               d="M 500,0 L 500,200 Q 500,250 450,250 L 250,250 Q 200,250 200,300 L 200,450 Q 200,500 250,500 L 750,500 Q 800,500 800,550 L 800,700 Q 800,750 750,750 L 550,750 Q 500,750 500,800 L 500,1000"
@@ -126,10 +146,9 @@ export function AppOverviewExperience() {
               stroke="#5C734C"
               strokeWidth="12"
               strokeLinejoin="miter"
-              vectorEffect="non-scaling-stroke"
               style={{
-                pathLength,
-                strokeDasharray: "1 1", // For Framer motion pathLength
+                strokeDasharray: dashArray,
+                strokeDashoffset: dashOffset,
               }}
             />
           </svg>
@@ -311,7 +330,6 @@ export function AppOverviewExperience() {
               {/* Feature 1: Journeys */}
               <div className={`lg:col-span-2 border rounded-[24px] p-10 md:p-12 flex flex-col justify-between relative overflow-hidden shadow-2xl transition-colors ${activeTheme === "dark" ? "bg-[#1A1E26] border-white/20" : "bg-[#F2EBDC] border-black/10"}`}>
                  <div className="relative z-10 mb-12">
-                    <span className="font-mono text-xs uppercase tracking-[0.2em] opacity-70 mb-4 block">Archive System</span>
                     <h3 className="text-3xl font-bold mb-4">Relive your Journeys</h3>
                     <p className="opacity-90 text-lg max-w-md">
                       Every step is recorded. Access a complete history of your explorations, filter by recent activity, and review the exact routes you took.
@@ -337,7 +355,6 @@ export function AppOverviewExperience() {
               <div className={`lg:col-span-1 border rounded-[24px] p-10 md:p-12 flex flex-col justify-between relative overflow-hidden shadow-2xl transition-colors ${activeTheme === "dark" ? "bg-[#1A1E26] border-white/20" : "bg-[#F2EBDC] border-black/10"}`}>
                  <div className={`absolute -bottom-20 -right-20 w-64 h-64 rounded-full blur-3xl pointer-events-none ${activeTheme === "dark" ? "bg-white/10" : "bg-black/5"}`} />
                  <div className="relative z-10">
-                    <span className="font-mono text-xs uppercase tracking-[0.2em] opacity-70 mb-4 block">Insights</span>
                     <h3 className="text-3xl font-bold mb-4">Analytics Engine</h3>
                     <p className="opacity-90 text-lg">
                       Track your total area unlocked, monitor your leveling velocity, and visualize your most active heatmaps.

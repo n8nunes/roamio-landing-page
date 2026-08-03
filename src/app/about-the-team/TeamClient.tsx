@@ -123,9 +123,6 @@ export function TeamClient() {
                     </h2>
                   </div>
                 </div>
-                <div className="text-roam-sage font-mono text-sm tracking-widest uppercase">
-                  {roleGroup.members.length} Members
-                </div>
               </div>
 
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
@@ -175,16 +172,6 @@ export function TeamClient() {
       >
         <div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col md:flex-row">
           
-          {/* Navigation / Header for Sticky Section */}
-          <div className="absolute top-0 left-0 w-full p-6 md:p-12 z-50 flex justify-between items-center text-roam-cream">
-            <div className="font-mono text-xs tracking-widest uppercase opacity-50">
-              Deep Dive
-            </div>
-            <div className="font-mono text-xs tracking-widest uppercase bg-roam-sage/20 px-3 py-1 rounded-full text-roam-sage">
-              {String(activeIndex + 1).padStart(2, '0')} / {String(allMembers.length).padStart(2, '0')}
-            </div>
-          </div>
-
           {/* Left Panel - Photo/Visual */}
           <div className="w-full md:w-1/2 h-1/2 md:h-full relative bg-roam-dark-bg flex items-center justify-center p-6 md:p-12 pt-24 md:pt-12">
             <AnimatePresence mode="popLayout">
