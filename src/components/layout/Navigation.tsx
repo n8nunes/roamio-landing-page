@@ -157,134 +157,56 @@ function RouteLine({ preview, visible, reduced }: { preview: PreviewKey; visible
 
 function MapPanel({ active }: { active: boolean }) {
   return (
-    <div className="relative h-full w-full overflow-hidden bg-roam-inner">
-      <svg className="absolute inset-0 h-full w-full" viewBox="0 0 520 620" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-        <rect width="520" height="620" fill="#F2EBDC" />
-        <g stroke="rgba(26,30,38,0.06)" strokeWidth="1">
-          {Array.from({ length: 13 }, (_, i) => (
-            <path key={`h-${i}`} d={`M0 ${48 + i * 48} H520`} />
-          ))}
-          {Array.from({ length: 11 }, (_, i) => (
-            <path key={`v-${i}`} d={`M${48 + i * 48} 0 V620`} />
-          ))}
-        </g>
-        <g stroke="#B8C7D4" strokeWidth="7" strokeLinecap="round" opacity="0.55">
-          <path d="M-40 180 C96 144 180 196 296 164 C386 138 438 104 562 120" />
-          <path d="M-60 422 C96 360 190 434 318 360 C422 300 468 336 574 278" />
-          <path d="M120 -36 C152 96 118 210 174 316 C234 430 190 520 246 662" />
-          <path d="M378 -40 C330 110 410 224 340 368 C286 476 356 566 304 660" />
-        </g>
-        <path d="M248 120 L410 164 L446 328 L332 452 L152 412 L96 242 Z" fill="#5C734C" opacity="0.34" />
-        <path d="M110 318 L224 248 L338 310 L302 434 L164 446 Z" fill="rgba(191,87,63,0.18)" />
-        <path d="M74 82 V536" fill="none" stroke="#5C734C" strokeWidth="2" strokeLinecap="round" opacity="0.55" />
-        <path
-          d="M82 512 C 178 432 174 312 276 276 C 392 234 366 122 474 82"
-          fill="none"
-          stroke="#5C734C"
-          strokeWidth="5"
-          strokeLinecap="round"
-          strokeDasharray="10 14"
-        />
-        <circle cx="82" cy="512" r="8" fill="#5C734C" />
-        <circle cx="276" cy="276" r="7" fill="#1A1E26" />
-        <circle cx="474" cy="82" r="10" fill="#BF573F" />
-        <circle cx="474" cy="82" r="22" fill="none" stroke="#BF573F" strokeWidth="2" opacity="0.35" />
-        <text x="88" y="560" fill="#1A1E26" opacity="0.55" fontSize="26" fontWeight="800">
-          CLAYTON
-        </text>
-        <text x="88" y="588" fill="#1A1E26" opacity="0.4" fontSize="14" fontFamily="monospace" letterSpacing="2">
-          68% REVEALED
-        </text>
-      </svg>
-      <div className={cn("absolute inset-0 bg-roam-sage/20 transition-opacity duration-500", active ? "opacity-0" : "opacity-45 grayscale")} />
+    <div className="relative h-full w-full overflow-hidden p-0">
+      <Image
+        src="/photos/home.png"
+        alt="Home preview"
+        fill
+        className="object-cover object-center"
+      />
+      <div className={cn("absolute inset-0 transition-opacity duration-500", active ? "opacity-0" : "opacity-35 grayscale")} />
     </div>
   );
 }
 
 function PhonePanel({ active }: { active: boolean }) {
   return (
-    <div className="relative h-full w-full overflow-hidden bg-roam-ink p-3">
-      <div className="mx-auto h-full max-w-[210px] rounded-[30px] border-[6px] border-roam-dark-bg bg-roam-cream p-3">
-        <div className="flex h-full flex-col overflow-hidden rounded-[22px] bg-roam-inner">
-          <div className="relative h-[48%] overflow-hidden">
-            <svg className="absolute inset-0 h-full w-full" viewBox="0 0 200 180" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-              <rect width="200" height="180" fill="#EDE4D4" />
-              <g fill="none" stroke="#5C734C" strokeWidth="1.2" opacity="0.28">
-                <path d="M20 40 L70 18 L110 48 L96 110 L28 118 L8 72 Z" />
-                <path d="M96 88 L150 72 L178 118 L138 158 L84 148 L66 112 Z" />
-              </g>
-              <path
-                d="M28 150 C58 118 72 96 108 78 C138 62 148 42 178 22"
-                fill="none"
-                stroke="#5C734C"
-                strokeWidth="3.5"
-                strokeLinecap="round"
-                strokeDasharray="6 8"
-              />
-              <circle cx="108" cy="78" r="5" fill="#5C734C" />
-              <circle cx="178" cy="22" r="7" fill="#BF573F" />
-            </svg>
-          </div>
-          <div className="flex flex-1 flex-col justify-end p-4">
-            <p className="text-[10px] font-black uppercase tracking-[0.18em] text-roam-sage">Region unlocked</p>
-            <p className="mt-1.5 text-2xl font-black tracking-tighter text-roam-ink">North Grid</p>
-            <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-roam-ink/10">
-              <div className="h-full w-[74%] rounded-full bg-roam-sage" />
-            </div>
-            <p className="mt-3 text-sm font-black text-roam-sage">+250 XP</p>
-          </div>
-        </div>
-      </div>
-      <div className={cn("absolute inset-0 bg-roam-ink/30 transition-opacity duration-500", active ? "opacity-0" : "opacity-55 grayscale")} />
+    <div className="relative h-full w-full overflow-hidden p-0">
+      <Image
+        src="/photos/profile.png"
+        alt="Profile preview"
+        fill
+        className="object-cover object-center"
+      />
+      <div className={cn("absolute inset-0 transition-opacity duration-500", active ? "opacity-0" : "opacity-35 grayscale")} />
     </div>
   );
 }
 
 function VisitPanel({ active }: { active: boolean }) {
   return (
-    <div className="relative h-full w-full overflow-hidden bg-roam-inner p-5 text-roam-ink">
-      <p className="text-xs font-black uppercase tracking-[0.2em] text-roam-sage">Visit</p>
-      <h3 className="mt-2 text-3xl font-black tracking-tighter">Market Lane</h3>
-      <p className="mt-3 max-w-[18rem] text-sm leading-relaxed text-roam-text-muted">
-        Corner bakery, late light, and a route you would not have taken twice.
-      </p>
-      <div className="mt-5 flex gap-2">
-        <div className="h-16 flex-1 bg-roam-sand" />
-        <div className="h-16 flex-1 bg-roam-sage/45" />
-        <div className="h-16 flex-1 bg-roam-clay/40" />
-      </div>
-      <p className="mt-4 font-mono text-[10px] uppercase tracking-[0.18em] text-roam-text-subtle">Saved · +120 XP</p>
-      <div className={cn("absolute inset-0 bg-roam-ink/35 transition-opacity duration-500", active ? "opacity-0" : "opacity-55 grayscale")} />
+    <div className="relative h-full w-full overflow-hidden p-0 text-roam-ink">
+      <Image
+        src="/photos/visits.png"
+        alt="Visits preview"
+        fill
+        className="object-cover object-center"
+      />
+      <div className={cn("absolute inset-0 transition-opacity duration-500", active ? "opacity-0" : "opacity-35 grayscale")} />
     </div>
   );
 }
 
 function AnalyticsPanel({ active }: { active: boolean }) {
   return (
-    <div className="relative h-full w-full overflow-hidden bg-roam-dark-bg p-5 text-roam-cream">
-      <p className="text-xs font-black uppercase tracking-[0.2em] text-roam-dark-sage">This week</p>
-      <div className="mt-6 flex items-end justify-between gap-6">
-        <div>
-          <p className="text-xs uppercase tracking-[0.16em] text-roam-cream/45">XP earned</p>
-          <p className="mt-1 text-4xl font-black tracking-tighter">12.4k</p>
-        </div>
-        <div className="text-right">
-          <p className="text-xs uppercase tracking-[0.16em] text-roam-cream/45">Visits</p>
-          <p className="mt-1 text-3xl font-black tracking-tighter">142</p>
-        </div>
-      </div>
-      <svg className="mt-8 h-24 w-full" viewBox="0 0 260 100" aria-hidden="true">
-        <path
-          d="M8 82 C42 70 58 88 88 52 C118 18 142 64 176 36 C204 14 228 28 252 12"
-          fill="none"
-          stroke="#9EB58D"
-          strokeWidth="4"
-          strokeLinecap="round"
-        />
-        <circle cx="252" cy="12" r="6" fill="#BF573F" />
-      </svg>
-      <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.18em] text-roam-cream/40">Route momentum · rising</p>
-      <div className={cn("absolute inset-0 bg-roam-ink/30 transition-opacity duration-500", active ? "opacity-0" : "opacity-55 grayscale")} />
+    <div className="relative h-full w-full overflow-hidden p-0 text-roam-cream">
+      <Image
+        src="/photos/location.png"
+        alt="Location preview"
+        fill
+        className="object-cover object-center"
+      />
+      <div className={cn("absolute inset-0 transition-opacity duration-500", active ? "opacity-0" : "opacity-35 grayscale")} />
     </div>
   );
 }
@@ -325,8 +247,9 @@ function ProductCollage({ activePreview, reduced }: { activePreview: PreviewKey;
         <motion.div
           className={cn(
             itemClass("home", "z-10"),
-            "left-0 top-[2%] h-[47%] w-[50%]"
+            "left-0 top-[2%] w-[40%]"
           )}
+          style={{ aspectRatio: "656 / 1320" }}
           animate={
             reduced
               ? undefined
@@ -344,8 +267,9 @@ function ProductCollage({ activePreview, reduced }: { activePreview: PreviewKey;
         <motion.div
           className={cn(
             itemClass("app", "z-20"),
-            "left-[43%] top-0 h-[47%] w-[24%]"
+            "left-[43%] top-0 w-[24%]"
           )}
+          style={{ aspectRatio: "650 / 868" }}
           animate={
             reduced
               ? undefined
@@ -382,8 +306,9 @@ function ProductCollage({ activePreview, reduced }: { activePreview: PreviewKey;
         <motion.div
           className={cn(
             itemClass("app", "z-30"),
-            "left-[33%] top-[46%] h-[32%] w-[37%]"
+            "left-[33%] top-[46%] w-[37%]"
           )}
+          style={{ aspectRatio: "648 / 488" }}
           animate={
             reduced
               ? undefined
@@ -401,8 +326,9 @@ function ProductCollage({ activePreview, reduced }: { activePreview: PreviewKey;
         <motion.div
           className={cn(
             itemClass("app", "z-20"),
-            "bottom-[3%] left-[61%] h-[35%] w-[36%]"
+            "bottom-[3%] left-[61%] w-[36%]"
           )}
+          style={{ aspectRatio: "642 / 840" }}
           animate={
             reduced
               ? undefined
